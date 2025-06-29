@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './LoginPage';
 import Dashboard from './Dashboard';
+import './styles.css';
+
 
 function App() {
   const [auth, setAuth] = useState({ role: '', tenantId: '' });

@@ -54,85 +54,40 @@ function ProjectList({ auth }) {
 
   const handleDelete = (id) => {
     if (!window.confirm('¿Estás seguro de eliminar este proyecto?')) return;
-    deleteProject(auth, id)
-      .then(() => loadProjects())
-      .catch(() => alert('Error al eliminar proyecto'));
+    deleteProject(auth, id).then(loadProjects).catch(() => alert('Error al eliminar proyecto'));
   };
 
   return (
-    <div className="my-6">
-      <h2 className="text-xl font-semibold mb-2">Proyectos</h2>
-
-      <ul className="mb-4">
+    <div className="section-box">
+      <h2>Proyectos</h2>
+      <ul>
         {projects.map(p => (
-          <li key={p.id} className="border p-2 mb-2 rounded bg-gray-100">
+          <li key={p.id} className="card">
             {editingId === p.id ? (
-              <div>
-                <input
-                  className="border p-1 mb-1 w-full"
-                  value={editData.name}
-                  onChange={e => setEditData({ ...editData, name: e.target.value })}
-                />
-                <input
-                  className="border p-1 mb-1 w-full"
-                  value={editData.description}
-                  onChange={e => setEditData({ ...editData, description: e.target.value })}
-                />
-                <button
-                  onClick={() => handleUpdate(p)}
-                  className="bg-blue-600 text-white px-2 py-1 rounded mr-2"
-                >
-                  Guardar
-                </button>
-                <button
-                  onClick={() => setEditingId(null)}
-                  className="bg-gray-400 text-white px-2 py-1 rounded"
-                >
-                  Cancelar
-                </button>
-              </div>
+              <>
+                <input value={editData.name} onChange={e => setEditData({ ...editData, name: e.target.value })} />
+                <input value={editData.description} onChange={e => setEditData({ ...editData, description: e.target.value })} />
+                <button className="btn-primary" onClick={() => handleUpdate(p)}>Guardar</button>
+                <button className="btn-delete" onClick={() => setEditingId(null)}>Cancelar</button>
+              </>
             ) : (
-              <div>
+              <>
                 <strong>{p.name}</strong><br />
                 {p.description}
-                <div className="mt-2">
-                  <button
-                    onClick={() => startEdit(p)}
-                    className="bg-yellow-500 text-white px-2 py-1 rounded mr-2"
-                  >
-                    Editar
-                  </button>
-                  <button
-                    onClick={() => handleDelete(p.id)}
-                    className="bg-red-600 text-white px-2 py-1 rounded"
-                  >
-                    Eliminar
-                  </button>
+                <div style={{ marginTop: '10px' }}>
+                  <button className="btn-edit" onClick={() => startEdit(p)}>Editar</button>
+                  <button className="btn-delete" onClick={() => handleDelete(p.id)}>Eliminar</button>
                 </div>
-              </div>
+              </>
             )}
           </li>
         ))}
       </ul>
 
-      <div className="mb-2">
-        <h3 className="font-bold mb-1">Nuevo proyecto</h3>
-        <input
-          className="border p-1 mr-2 mb-2 w-full"
-          placeholder="Nombre del proyecto"
-          value={newProject.name}
-          onChange={e => setNewProject({ ...newProject, name: e.target.value })}
-        />
-        <input
-          className="border p-1 mr-2 mb-2 w-full"
-          placeholder="Descripción"
-          value={newProject.description}
-          onChange={e => setNewProject({ ...newProject, description: e.target.value })}
-        />
-        <button onClick={handleCreate} className="bg-green-600 text-white px-4 py-1 rounded">
-          Crear
-        </button>
-      </div>
+      <h3>Nuevo proyecto</h3>
+      <input placeholder="Nombre del proyecto" value={newProject.name} onChange={e => setNewProject({ ...newProject, name: e.target.value })} />
+      <input placeholder="Descripción" value={newProject.description} onChange={e => setNewProject({ ...newProject, description: e.target.value })} />
+      <button className="btn-primary" onClick={handleCreate}>Crear</button>
     </div>
   );
 }
